@@ -18,16 +18,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetCoffeeTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                JetCoffeeApp()
             }
         }
     }
 }
+
+@Composable
+fun JetCoffeeApp() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colors.background
+    ) {
+        Greeting("Android")
+    }
+}
+
 
 @Composable
 fun Greeting(name: String) {
