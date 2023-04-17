@@ -23,10 +23,7 @@ import com.rivaldofez.jetcoffee.model.Menu
 import com.rivaldofez.jetcoffee.model.dummyBestSellerMenu
 import com.rivaldofez.jetcoffee.model.dummyCategory
 import com.rivaldofez.jetcoffee.model.dummyMenu
-import com.rivaldofez.jetcoffee.ui.components.CategoryItem
-import com.rivaldofez.jetcoffee.ui.components.MenuItem
-import com.rivaldofez.jetcoffee.ui.components.SearchBar
-import com.rivaldofez.jetcoffee.ui.components.SectionText
+import com.rivaldofez.jetcoffee.ui.components.*
 import com.rivaldofez.jetcoffee.ui.theme.JetCoffeeTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,13 +42,18 @@ class MainActivity : ComponentActivity() {
 fun JetCoffeeApp() {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Banner()
-        SectionText(title = stringResource(id = R.string.section_category))
-        CategoryRow()
-        SectionText(stringResource(R.string.section_favorite_menu))
-        MenuRow(dummyMenu)
-        SectionText(stringResource(R.string.section_best_seller_menu))
-        MenuRow(dummyBestSellerMenu)
+        HomeSection(
+            title = stringResource(R.string.section_category),
+            content = { CategoryRow() }
+        )
+        HomeSection(stringResource(R.string.section_best_seller_menu), Modifier, {
+            MenuRow(dummyMenu)
+        })
+        HomeSection(stringResource(R.string.section_best_seller_menu)) {
+            MenuRow(dummyBestSellerMenu)
+        }
     }
+
 }
 
 @Composable
