@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.rivaldofez.jetcoffee.model.*
 import com.rivaldofez.jetcoffee.ui.components.*
 import com.rivaldofez.jetcoffee.ui.theme.JetCoffeeTheme
+import com.rivaldofez.jetcoffee.ui.theme.LightGray
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,15 +39,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun JetCoffeeApp(modifier: Modifier = Modifier) {
     Scaffold(
         bottomBar = { BottomBar() }
-    ) {
+    ) { innerPadding ->
         Column(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
         ) {
             Banner()
             HomeSection(
@@ -63,8 +64,6 @@ fun JetCoffeeApp(modifier: Modifier = Modifier) {
             )
         }
     }
-
-
 }
 
 @Composable
@@ -72,7 +71,9 @@ fun BottomBar(
     modifier: Modifier = Modifier
 ) {
     BottomNavigation(
-        modifier = modifier
+        modifier = modifier,
+        backgroundColor = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.primary
     ) {
         val navigationItems = listOf(
             BottomBarItem(
@@ -102,6 +103,7 @@ fun BottomBar(
                     Text(it.title)
                 },
                 selected = it.title == navigationItems[0].title,
+                unselectedContentColor = LightGray,
                 onClick = {}
             )
         }
