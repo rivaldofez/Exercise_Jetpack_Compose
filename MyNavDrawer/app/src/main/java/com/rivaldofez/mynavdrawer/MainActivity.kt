@@ -13,10 +13,12 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
 fun MyNavDrawerApp() {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -54,7 +57,14 @@ fun MyNavDrawerApp() {
         },
         drawerContent = {
             MyDrawerContent(
-                onItemSelected = {
+                onItemSelected = {title ->
+                    scope.launch {
+                        scaffoldState.drawerState.close()
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = context.resources.getString(R.string.coming_soon, title),
+                            actionLabel = context.resources.getString(R.string.subscribe_question)
+                        )
+                    }
 
                 }
             )
