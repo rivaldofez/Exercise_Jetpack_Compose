@@ -1,6 +1,7 @@
 package com.rivaldofez.jetheroes
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,13 +29,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.rivaldofez.jetheroes.model.HeroesData
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun JetHeroesApp(
     modifier: Modifier = Modifier,
 ) {
+
+    val groupedHeroes = HeroesData.heroes
+        .sortedBy { it.name }
+        .groupBy { it.name[0] }
+
     Box(modifier = modifier) {
         val scope = rememberCoroutineScope()
         val listState = rememberLazyListState()
@@ -45,12 +53,18 @@ fun JetHeroesApp(
             state = listState,
             contentPadding = PaddingValues(bottom = 80.dp)
         ) {
-            items(HeroesData.heroes, key = { it.id }) { hero ->
-                HeroListItem(
-                    name = hero.name,
-                    photoUrl = hero.photoUrl,
-                    modifier = Modifier.fillMaxWidth()
-                )
+
+            groupedHeroes.forEach { (initial, heroes) ->
+                stickyHeader {
+                    CharacterHeader(initial)
+                }
+                items(heroes, key = { it.id }) { hero ->
+                    HeroListItem(
+                        name = hero.name,
+                        photoUrl = hero.photoUrl,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
 
@@ -72,6 +86,29 @@ fun JetHeroesApp(
         }
     }
 }
+
+@Composable
+fun CharacterHeader(
+    char: Char,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        color = MaterialTheme.colors.primary,
+        modifier = modifier
+    ) {
+        Text(
+            text = char.toString(),
+            fontWeight = FontWeight.Black,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+    }
+}
+
+
 
 @Composable
 fun HeroListItem(
