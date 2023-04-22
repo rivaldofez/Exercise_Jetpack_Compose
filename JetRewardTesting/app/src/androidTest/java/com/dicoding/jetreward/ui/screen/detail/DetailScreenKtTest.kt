@@ -60,6 +60,7 @@ class DetailContentTest {
     fun increaseProduct_correctCounter() {
         composeTestRule.onNodeWithStringId(R.string.plus_symbol).performClick().performClick()
         composeTestRule.onNodeWithText("2").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("count").assert(hasText("2"))
     }
 
 
