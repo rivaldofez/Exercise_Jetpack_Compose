@@ -1,16 +1,14 @@
 package com.dicoding.jetreward.ui.screen.detail
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
 import com.dicoding.jetreward.model.OrderReward
 import com.dicoding.jetreward.model.Reward
 import org.junit.Assert.*
 import org.junit.Rule
 import com.dicoding.jetreward.R
+import com.dicoding.jetreward.onNodeWithStringId
 import com.dicoding.jetreward.ui.theme.JetRewardTheme
 import org.junit.Before
 import org.junit.Test
@@ -49,6 +47,13 @@ class DetailContentTest {
                 fakeOrderReward.reward.requiredPoint
             )
         ).assertIsDisplayed()
+    }
+
+    @Test
+    fun increaseProduct_buttonEnabled() {
+        composeTestRule.onNodeWithContentDescription("Order Button").assertIsNotEnabled()
+        composeTestRule.onNodeWithStringId(R.string.plus_symbol).performClick()
+        composeTestRule.onNodeWithContentDescription("Order Button").assertIsEnabled()
     }
 
 
