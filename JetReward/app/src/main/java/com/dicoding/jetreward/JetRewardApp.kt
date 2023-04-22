@@ -21,6 +21,8 @@ import com.dicoding.jetreward.ui.screen.cart.CartScreen
 import com.dicoding.jetreward.ui.screen.home.HomeScreen
 import com.dicoding.jetreward.ui.screen.profile.ProfileScreen
 import com.dicoding.jetreward.ui.theme.JetRewardTheme
+import androidx.compose.runtime.getValue
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun JetRewardApp(
@@ -60,6 +62,10 @@ private fun BottomBar(
     BottomNavigation(
         modifier = modifier
     ) {
+
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         val navigationItems = listOf(
             NavigationItem(
                 title = stringResource(R.string.menu_home),
@@ -87,7 +93,7 @@ private fun BottomBar(
                         )
                     },
                     label = { Text(item.title) },
-                    selected = true,
+                    selected = currentRoute == item.screen.route,
                     onClick = {
                         navController.navigate(item.screen.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
